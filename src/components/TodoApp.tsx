@@ -10,11 +10,11 @@ export const TodoApp = () => {
   };
 
   const handleAddTask = () => {
-    if (newTask.trim() !== '') {
-      const capitalizedLetter = capitalizeFirstLetter(newTask);
-      setListOfTasks([...listOfTasks, capitalizedLetter]);
-      setNewTask('');
-    }
+    if (!newTask.trim()) return;
+
+    const capitalizedLetter = capitalizeFirstLetter(newTask);
+    setListOfTasks([...listOfTasks, capitalizedLetter]);
+    setNewTask('');
   };
 
   // Use Enter to add the task
@@ -31,7 +31,7 @@ export const TodoApp = () => {
   return (
     <div>
       <h1>List of Tasks</h1>
-      <div className='flex'>
+      <div className="flex">
         <input
           type="text"
           value={newTask}
@@ -39,9 +39,7 @@ export const TodoApp = () => {
           onKeyDown={handleKeyDown}
           placeholder="New task"
         />
-        <button onClick={handleAddTask}>
-          Add task
-        </button>
+        <button onClick={handleAddTask}>Add task</button>
       </div>
       <TaskList tasksList={listOfTasks} deleteTasks={handleDeleteTask} />
     </div>
