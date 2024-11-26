@@ -1,30 +1,34 @@
-import { KeyboardEvent, useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 
 export const useTask = () => {
   const [newTask, setNewTask] = useState<string>('');
   const [listOfTasks, setListOfTasks] = useState<string[]>([]);
 
-  const capitalizeFirstLetter = (letter: string) => {
-    return letter.charAt(0).toUpperCase() + letter.slice(1);
-  };
+  const capitalizeFirstLetter = (text: string) =>
+    text.charAt(0).toUpperCase() + text.slice(1);
 
   const handleAddTask = () => {
     if (!newTask.trim()) return;
-
-    const capitalizedLetter = capitalizeFirstLetter(newTask);
-    setListOfTasks([...listOfTasks, capitalizedLetter]);
+    setListOfTasks([...listOfTasks, capitalizeFirstLetter(newTask)]);
     setNewTask('');
   };
-
-  // Use Enter to add the task
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleAddTask();
-    }
+  
+  const handleUpdateTask = (index: number, updatedTask: string) => {
+    if (!updatedTask.trim()) return;
+    setListOfTasks((tasks) =>
+      tasks.map((task, i) =>
+        i === index ? capitalizeFirstLetter(updatedTask) : task
+      )
+    );
   };
 
   const handleDeleteTask = (index: number) => {
-    setListOfTasks((task) => task.filter((_, i) => i !== index));
+    setListOfTasks((tasks) => tasks.filter((_, i) => i !== index));
+  };
+
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleAddTask();
   };
 
   return {
@@ -32,6 +36,7 @@ export const useTask = () => {
     setNewTask,
     listOfTasks,
     handleAddTask,
+    handleUpdateTask,
     handleDeleteTask,
     handleKeyDown,
   };

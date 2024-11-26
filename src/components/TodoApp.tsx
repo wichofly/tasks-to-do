@@ -7,6 +7,7 @@ export const TodoApp = () => {
     setNewTask,
     listOfTasks,
     handleAddTask,
+    handleUpdateTask,
     handleDeleteTask,
     handleKeyDown,
   } = useTask();
@@ -24,7 +25,11 @@ export const TodoApp = () => {
         />
         <button onClick={handleAddTask}>Add task</button>
       </div>
-      <TaskList tasksList={listOfTasks} deleteTasks={handleDeleteTask} />
+      <TaskList
+        tasksList={listOfTasks}
+        deleteTasks={handleDeleteTask}
+        updateTask={handleUpdateTask}
+      />
     </div>
   );
 };
