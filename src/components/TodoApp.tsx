@@ -21,7 +21,7 @@ export const TodoApp = () => {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="New task"
+          placeholder="Add task"
         />
         <button onClick={handleAddTask}>Add task</button>
       </div>
