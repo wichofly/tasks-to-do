@@ -149,3 +149,8 @@ input[type="text"] {
   text-align: center;
   padding: 20px;
 }
+
+.task.completed span {
+  text-decoration: line-through;
+  color: gray;
+}
