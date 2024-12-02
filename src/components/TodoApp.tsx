@@ -1,34 +1,55 @@
+import { FormEvent, useState } from 'react';
 import { useTask } from '../hooks/useTask';
 import { TaskList } from './TaskList';
 
 export const TodoApp = () => {
-  const {
-    newTask,
-    setNewTask,
-    listOfTasks,
-    handleAddTask,
-    handleUpdateTask,
-    handleDeleteTask,
-    handleKeyDown,
-  } = useTask();
+  const { tasks, addTask, deleteTask, toggleCompletion, setFilter, filter } =
+    useTask();
+
+  const [taskInput, setTaskInput] = useState('');
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    addTask(taskInput);
+    setTaskInput('');
+  };
 
   return (
     <div>
-      <h1>List of Tasks</h1>
-      <div className="flex">
+      <h1>Todo App</h1>
+
+      {/* Task Creation Form */}
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Add task"
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+          placeholder="New task"
         />
-        <button onClick={handleAddTask}>Add task</button>
+        <button type="submit">Add Task</button>
+      </form>
+
+      {/* Filter Dropdown */}
+      <div>
+        <label htmlFor="filter">Filter:</label>
+        <select
+          id="filter"
+          value={filter}
+          onChange={(e) =>
+            setFilter(e.target.value as 'all' | 'completed' | 'incomplete')
+          }
+        >
+          <option value="all">All</option>
+          <option value="completed">Completed</option>
+          <option value="incomplete">Incomplete</option>
+        </select>
       </div>
+
+      {/* Task List */}
       <TaskList
-        tasksList={listOfTasks}
-        deleteTasks={handleDeleteTask}
-        updateTask={handleUpdateTask}
+        tasks={tasks}
+        onDelete={deleteTask}
+        onToggleCompletion={toggleCompletion}
       />
     </div>
   );

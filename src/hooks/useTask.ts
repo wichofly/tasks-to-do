@@ -1,43 +1,54 @@
-import { useState, KeyboardEvent } from 'react';
+import { useState } from 'react';
+
+// Define the task structure
+interface Task {
+  id: number;
+  name: string;
+  completed: boolean;
+}
 
 export const useTask = () => {
-  const [newTask, setNewTask] = useState<string>('');
-  const [listOfTasks, setListOfTasks] = useState<string[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [filter, setFilter] = useState<'all' | 'completed' | 'incomplete'>(
+    'all'
+  );
 
-  const capitalizeFirstLetter = (text: string) =>
-    text.charAt(0).toUpperCase() + text.slice(1);
+  const handleAddTask = (taskName: string) => {
+    if (!taskName.trim()) return;
 
-  const handleAddTask = () => {
-    if (!newTask.trim()) return;
-    setListOfTasks([...listOfTasks, capitalizeFirstLetter(newTask)]);
-    setNewTask('');
+    const newTask: Task = {
+      id: Date.now(), // Unique identifier
+      name: taskName.trim(),
+      completed: false,
+    };
+
+    setTasks((prevTasks) => [...prevTasks, newTask]);
   };
-  
-  const handleUpdateTask = (index: number, updatedTask: string) => {
-    if (!updatedTask.trim()) return;
-    setListOfTasks((tasks) =>
-      tasks.map((task, i) =>
-        i === index ? capitalizeFirstLetter(updatedTask) : task
+
+  const handleDeleteTask = (id: number) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+  };
+
+  const handleToggleCompletion = (id: number) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
   };
 
-  const handleDeleteTask = (index: number) => {
-    setListOfTasks((tasks) => tasks.filter((_, i) => i !== index));
-  };
-
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') handleAddTask();
-  };
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === 'completed') return task.completed;
+    if (filter === 'incomplete') return !task.completed;
+    return true; // 'all'
+  });
 
   return {
-    newTask,
-    setNewTask,
-    listOfTasks,
-    handleAddTask,
-    handleUpdateTask,
-    handleDeleteTask,
-    handleKeyDown,
+    tasks: filteredTasks,
+    addTask: handleAddTask,
+    deleteTask: handleDeleteTask,
+    toggleCompletion: handleToggleCompletion,
+    setFilter, // Set the filter type
+    filter, // Current filter type
   };
 };

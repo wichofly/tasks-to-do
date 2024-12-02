@@ -1,20 +1,24 @@
-import { Task } from './Task';
+import { TaskItem } from './TaskItem';
 
 interface Props {
-  tasksList: string[];
-  updateTask: (index: number, updatedTask: string) => void;
-  deleteTasks: (index: number) => void;
+  tasks: {
+    id: number;
+    name: string;
+    completed: boolean;
+  }[];
+  onDelete: (id: number) => void;
+  onToggleCompletion: (id: number) => void;
 }
 
-export const TaskList = ({ tasksList, updateTask, deleteTasks }: Props) => {
+export const TaskList = ({ tasks, onDelete, onToggleCompletion }: Props) => {
   return (
     <div className="taskList">
-      {tasksList.map((task, index) => (
-        <Task
-          key={index}
+      {tasks.map((task) => (
+        <TaskItem
+          key={task.id}
           task={task}
-          onUpdate={(updatedTask) => updateTask(index, updatedTask)}
-          onDelete={() => deleteTasks(index)}
+          onDelete={() => onDelete(task.id)}
+          onToggleCompletion={() => onToggleCompletion(task.id)}
         />
       ))}
     </div>
