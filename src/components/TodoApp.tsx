@@ -3,8 +3,15 @@ import { useTask } from '../hooks/useTask';
 import { TaskList } from './TaskList';
 
 export const TodoApp = () => {
-  const { tasks, addTask, deleteTask, toggleCompletion, setFilter, filter } =
-    useTask();
+  const {
+    tasks,
+    addTask,
+    updateTask,
+    deleteTask,
+    toggleCompletion,
+    setFilter,
+    filter,
+  } = useTask();
 
   const [taskInput, setTaskInput] = useState('');
 
@@ -16,7 +23,7 @@ export const TodoApp = () => {
 
   return (
     <div>
-      <h1>Todo App</h1>
+      <h1>Tasks To Do</h1>
 
       {/* Task Creation Form */}
       <form onSubmit={handleSubmit}>
@@ -48,6 +55,7 @@ export const TodoApp = () => {
       {/* Task List */}
       <TaskList
         tasks={tasks}
+        onUpdate={updateTask}
         onDelete={deleteTask}
         onToggleCompletion={toggleCompletion}
       />

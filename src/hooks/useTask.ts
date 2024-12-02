@@ -25,6 +25,16 @@ export const useTask = () => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
+  const handleUpdateTask = (id: number, updatedName: string) => {
+    if (!updatedName.trim()) return;
+
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, name: updatedName.trim() } : task
+      )
+    );
+  };
+
   const handleDeleteTask = (id: number) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
@@ -46,6 +56,7 @@ export const useTask = () => {
   return {
     tasks: filteredTasks,
     addTask: handleAddTask,
+    updateTask: handleUpdateTask,
     deleteTask: handleDeleteTask,
     toggleCompletion: handleToggleCompletion,
     setFilter, // Set the filter type
