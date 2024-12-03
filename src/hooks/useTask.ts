@@ -1,11 +1,5 @@
 import { useState } from 'react';
-
-// Define the task structure
-interface Task {
-  id: number;
-  name: string;
-  completed: boolean;
-}
+import { Task } from '../interface';
 
 export const useTask = () => {
   const [tasks, setTasks] = useState<Task[]>([]);

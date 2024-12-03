@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { GrUpdate } from 'react-icons/gr';
 import { MdDeleteForever } from 'react-icons/md';
+import { Task } from '../interface';
 
 interface Props {
-  task: {
-    id: number;
-    name: string;
-    completed: boolean;
-  };
+  task: Task;
   onDelete: () => void;
   onToggleCompletion: () => void;
   onUpdate: (updatedName: string) => void;

@@ -1,11 +1,8 @@
+import { Task } from '../interface';
 import { TaskItem } from './TaskItem';
 
 interface Props {
-  tasks: {
-    id: number;
-    name: string;
-    completed: boolean;
-  }[];
+  tasks: Task[]
   onUpdate: (id: number, updatedName: string) => void;
   onDelete: (id: number) => void;
   onToggleCompletion: (id: number) => void;
