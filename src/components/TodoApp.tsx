@@ -1,10 +1,12 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { useTask } from '../hooks/useTask';
 import { TaskList } from './TaskList';
 
 export const TodoApp = () => {
   const {
     tasks,
+    taskInput,
+    setTaskInput,
     addTask,
     updateTask,
     deleteTask,
@@ -13,12 +15,11 @@ export const TodoApp = () => {
     filter,
   } = useTask();
 
-  const [taskInput, setTaskInput] = useState('');
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+
     addTask(taskInput);
-    setTaskInput('');
+    setTaskInput('')
   };
 
   return (

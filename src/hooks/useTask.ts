@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Task } from '../interface';
 
 export const useTask = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const initialTask = (): Task[] => {
+    const localStorageTask = localStorage.getItem('tasks');
+    return localStorageTask ? JSON.parse(localStorageTask) : [];
+  };
+
+  const [tasks, setTasks] = useState(initialTask);
   const [filter, setFilter] = useState<'all' | 'completed' | 'incomplete'>(
     'all'
   );
+  const [taskInput, setTaskInput] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   const handleAddTask = (taskName: string) => {
     if (!taskName.trim()) return;
@@ -15,6 +25,8 @@ export const useTask = () => {
       name: taskName.trim(),
       completed: false,
     };
+
+    console.log(newTask);
 
     setTasks((prevTasks) => [...prevTasks, newTask]);
   };
@@ -49,6 +61,8 @@ export const useTask = () => {
 
   return {
     tasks: filteredTasks,
+    taskInput,
+    setTaskInput,
     addTask: handleAddTask,
     updateTask: handleUpdateTask,
     deleteTask: handleDeleteTask,
