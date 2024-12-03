@@ -17,43 +17,47 @@ export const TodoApp = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-
     addTask(taskInput);
-    setTaskInput('')
+    setTaskInput('');
   };
 
   return (
-    <div>
-      <h1>Tasks To Do</h1>
+    <div className="app-container">
+      <h1 className="app-title">Tasks To Do</h1>
 
-      {/* Task Creation Form */}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={taskInput}
-          onChange={(e) => setTaskInput(e.target.value)}
-          placeholder="New task"
-        />
-        <button type="submit">Add Task</button>
-      </form>
+      <div className="header-row">
+        <form onSubmit={handleSubmit} className="task-form">
+          <input
+            className="task-input"
+            type="text"
+            value={taskInput}
+            onChange={(e) => setTaskInput(e.target.value)}
+            placeholder="New task"
+          />
+          <button className="add-task-button" type="submit">
+            Add Task
+          </button>
+        </form>
 
-      {/* Filter Dropdown */}
-      <div>
-        <label htmlFor="filter">Filter:</label>
-        <select
-          id="filter"
-          value={filter}
-          onChange={(e) =>
-            setFilter(e.target.value as 'all' | 'completed' | 'incomplete')
-          }
-        >
-          <option value="all">All</option>
-          <option value="completed">Completed</option>
-          <option value="incomplete">Incomplete</option>
-        </select>
+        <div className="filter-container">
+          <label className="filter-label" htmlFor="filter">
+            Filter:
+          </label>
+          <select
+            className="filter-dropdown"
+            id="filter"
+            value={filter}
+            onChange={(e) =>
+              setFilter(e.target.value as 'all' | 'completed' | 'incomplete')
+            }
+          >
+            <option value="all">All</option>
+            <option value="completed">Completed</option>
+            <option value="incomplete">Incomplete</option>
+          </select>
+        </div>
       </div>
 
-      {/* Task List */}
       <TaskList
         tasks={tasks}
         onUpdate={updateTask}

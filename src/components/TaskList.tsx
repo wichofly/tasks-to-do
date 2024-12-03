@@ -2,7 +2,7 @@ import { Task } from '../interface';
 import { TaskItem } from './TaskItem';
 
 interface Props {
-  tasks: Task[]
+  tasks: Task[];
   onUpdate: (id: number, updatedName: string) => void;
   onDelete: (id: number) => void;
   onToggleCompletion: (id: number) => void;
@@ -15,7 +15,7 @@ export const TaskList = ({
   onToggleCompletion,
 }: Props) => {
   return (
-    <div className="taskList">
+    <div className="task-list">
       {tasks.map((task) => (
         <TaskItem
           key={task.id}

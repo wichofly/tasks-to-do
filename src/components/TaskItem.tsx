@@ -25,29 +25,40 @@ export const TaskItem = ({
   };
 
   return (
-    <div className={`task ${task.completed ? 'completed' : ''}`}>
-      <input
-        type="checkbox"
-        checked={task.completed}
-        onChange={onToggleCompletion}
-      />
-      {isEditing ? (
+    <div className={`task-item ${task.completed ? 'completed' : ''}`}>
+      <div className="task-content">
         <input
-          type="text"
-          value={updatedName}
-          onChange={(e) => setUpdatedName(e.target.value)}
-          onBlur={handleSaveUpdate} // Save when the input loses focus
-          onKeyDown={(e) => e.key === 'Enter' && handleSaveUpdate()} // Save on Enter
+          className="task-checkbox"
+          type="checkbox"
+          checked={task.completed}
+          onChange={onToggleCompletion}
         />
-      ) : (
-        <span onClick={() => setIsEditing(true)}>{task.name}</span> // Enable editing on click
-      )}
-      <button onClick={() => setIsEditing(true)}>
-        <GrUpdate />
-      </button>
-      <button onClick={onDelete}>
-        <MdDeleteForever />
-      </button>
+        {isEditing ? (
+          <input
+            className="task-edit-input"
+            type="text"
+            value={updatedName}
+            onChange={(e) => setUpdatedName(e.target.value)}
+            onBlur={handleSaveUpdate} // Save when the input loses focus
+            onKeyDown={(e) => e.key === 'Enter' && handleSaveUpdate()} // Save on Enter
+          />
+        ) : (
+          <span className="task-name" onClick={() => setIsEditing(true)}>
+            {task.name}
+          </span> // Enable editing on click
+        )}
+      </div>
+      <div className="task-buttons">
+        <button
+          className="update-task-button"
+          onClick={() => setIsEditing(true)}
+        >
+          <GrUpdate />
+        </button>
+        <button className="delete-task-button" onClick={onDelete}>
+          <MdDeleteForever />
+        </button>
+      </div>
     </div>
   );
 };
